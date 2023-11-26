@@ -29,4 +29,21 @@ const UserSchema = mongoose.Schema({
   },
 });
 
+UserSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
+
+UserSchema.methods.createJWT = function () {
+  return jwt.sign(
+    { userId: this._id, name: this.name },
+    process.env.JWT_SECRET,
+    { expiresIn: 30 }
+  );
+};
+
 module.exports = mongoose.model("User", UserSchema);
