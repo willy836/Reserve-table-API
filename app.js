@@ -4,6 +4,7 @@ require("dotenv").config();
 const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
 const tableRouter = require("./routes/restaurant-table");
+const reservationRouter = require("./routes/reservation");
 
 const authenticateUser = require("./middlewares/authentication");
 const notFoundMiddleware = require("./middlewares/not-found");
@@ -12,9 +13,9 @@ const app = express();
 
 app.use(express.json());
 
-// routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/tables", authenticateUser, tableRouter);
+app.use("/api/v1/reservations", authenticateUser, reservationRouter);
 
 app.use(notFoundMiddleware);
 
