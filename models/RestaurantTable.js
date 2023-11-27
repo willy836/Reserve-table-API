@@ -26,7 +26,7 @@ const RestaurantTableSchema = mongoose.Schema(
       type: String,
       required: [true, "Please provide table size"],
     },
-    authorId: {
+    author: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: [true, "Please provide author"],

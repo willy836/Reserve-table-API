@@ -14,19 +14,21 @@ const ReservationSchema = mongoose.Schema(
       type: Date,
       required: [true, "Please provide end date"],
     },
-    authorId: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
-      required: [true, "Please provide author"],
+    userName: {
+      type: String,
+      required: [true, "pLease provide user name"],
     },
-    restaurantTableId: {
-      type: mongoose.Types.ObjectId,
-      ref: "RestaurantTable",
-      required: [true, "Please provide restaurant table id"],
-    },
-    restaurantTableName: {
+    tableName: {
       type: String,
       required: [true, "Please provide table name"],
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+    restaurantTable: {
+      type: mongoose.Types.ObjectId,
+      ref: "RestaurantTable",
     },
   },
   { timestamps: true }

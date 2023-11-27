@@ -11,7 +11,7 @@ const getSingleRestaurantTable = async (req, res) => {
   const restaurantTable = await RestaurantTable.find({ _id: tableId });
 
   if (!restaurantTable) {
-    throw new Error(`No table with id ${tableId}`);
+    return res.status(404).json({ message: `No table with id ${tableId}` });
   }
 
   res.status(200).json({ restaurantTable });
@@ -22,7 +22,7 @@ const createRestaurantTable = async (req, res) => {
   const user = await User.findOne({ _id: userId });
 
   if (!user) {
-    throw new Error(`No user with id ${userId}`);
+    return res.status(404).json({ message: `No user with id ${userId}` });
   }
 
   if (!user.isAdmin) {
@@ -31,7 +31,7 @@ const createRestaurantTable = async (req, res) => {
       .json({ message: "You are not authorized to perform this action" });
     return;
   }
-  req.body.authorId = userId;
+  req.body.author = userId;
   const restaurantTable = await RestaurantTable.create(req.body);
 
   res.status(201).json({ restaurantTable });
@@ -44,7 +44,7 @@ const updateRestaurantTable = async (req, res) => {
   const user = await User.findOne({ _id: userId });
 
   if (!user) {
-    throw new Error(`No user with id ${userId}`);
+    return res.status(404).json({ message: `No user with id ${userId}` });
   }
 
   if (!user.isAdmin) {
@@ -55,13 +55,15 @@ const updateRestaurantTable = async (req, res) => {
   }
 
   if (Object.keys(req.body).length === 0) {
-    throw new Error("Request body cannot be empty. Provide data for update");
+    return res.status(400).json({
+      message: "Request body cannot be empty. Provide data for update",
+    });
   }
 
   const restaurantTable = await RestaurantTable.findOne({ _id: tableId });
 
   if (!restaurantTable) {
-    throw new Error(`No table with id ${tableId}`);
+    return res.status(404).json({ message: `No table with id ${tableId}` });
   }
 
   const updatedTable = await RestaurantTable.findByIdAndUpdate(
@@ -80,7 +82,7 @@ const deleteRestaurantTable = async (req, res) => {
   const user = await User.findOne({ _id: userId });
 
   if (!user) {
-    throw new Error(`No user with id ${userId}`);
+    return res.status(404).json({ message: `No user with id ${userId}` });
   }
 
   if (!user.isAdmin) {
@@ -93,7 +95,7 @@ const deleteRestaurantTable = async (req, res) => {
   const restaurantTable = await RestaurantTable.findOne({ _id: tableId });
 
   if (!restaurantTable) {
-    throw new Error(`No table with id ${tableId}`);
+    return res.status(404).json({ message: `No table with id ${tableId}` });
   }
 
   await RestaurantTable.findByIdAndDelete(tableId);

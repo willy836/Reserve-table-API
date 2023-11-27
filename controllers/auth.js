@@ -12,19 +12,21 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new Error("Please provide email and password");
+    return res
+      .status(400)
+      .json({ message: "Please provide email and password" });
   }
 
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new Error("Invalid credentials");
+    return res.status(401).json({ message: "Invalid credentials" });
   }
 
   const isValidPassword = await user.comparePassword(password);
 
   if (!isValidPassword) {
-    throw new Error("Invalid credentials");
+    return res.status(401).json({ message: "Invalid credentials" });
   }
 
   const token = user.createJWT();
