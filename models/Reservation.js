@@ -22,7 +22,11 @@ const ReservationSchema = mongoose.Schema(
     restaurantTableId: {
       type: mongoose.Types.ObjectId,
       ref: "RestaurantTable",
-      required: [true, "Please provide restaurant table"],
+      required: [true, "Please provide restaurant table id"],
+    },
+    restaurantTableName: {
+      type: String,
+      required: [true, "Please provide table name"],
     },
   },
   { timestamps: true }
