@@ -1,0 +1,359 @@
+openapi: 3.0.0
+info:
+  title: Reserve Table API
+  contact:
+    name: Wilson Kimiri
+    email: wilsonkimiri836@gmail.com
+  version: "1.0"
+servers:
+  - url: http://127.0.0.1:3000/api/v1
+    variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      description: Register user
+      operationId: Registeruser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/RegisteruserRequest"
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              example:
+                name: John
+                email: john@gmail.com
+                password: password
+        required: true
+      responses:
+        "201":
+          description: "Created"
+          headers: {}
+      deprecated: false
+      security: []
+    parameters: []
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      description: Login user
+      operationId: Loginuser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/LoginuserRequest"
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            example:
+              email: john@gmail.com
+              password: password
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          headers: {}
+      deprecated: false
+      security: []
+    parameters: []
+  /tables:
+    post:
+      tags:
+        - Restaurant Tables
+      description: Create table
+      operationId: Createtable
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreatetableRequest"
+              type: object
+              properties:
+                name:
+                  type: string
+                image:
+                  type: string
+                desc:
+                  type: string
+                price:
+                  type: string
+                tableSize:
+                  type: string
+            example:
+              name: TableName
+              image: https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80
+              desc: This is an example table description! The table is ideal for a family gathering. This table offers ample space for guests to mingle and socialize, with a design that promotes a sense of warmth and togetherness. The table is versatile enough to accommodate a range of dining options, from a buffet-style meal to a formal sit-down dinner.
+              price: "75"
+              tableSize: "8"
+        required: true
+      responses:
+        "201":
+          description: "Created"
+          headers: {}
+      deprecated: false
+    get:
+      tags:
+        - Restaurant Tables
+      description: Get all tables
+      operationId: Getalltables
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          headers: {}
+      deprecated: false
+    parameters: []
+  /tables/{id}:
+    get:
+      tags:
+        - Restaurant Tables
+      description: Get single table
+      operationId: Getsingletable
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - Restaurant Tables
+      description: Delete table
+      operationId: Deletetable
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "No Content"
+          headers: {}
+      deprecated: false
+    patch:
+      tags:
+        - Restaurant Tables
+      description: Update table
+      operationId: Updatetable
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          style: simple
+          schema:
+            type: string
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdatetableRequest"
+              type: object
+              properties:
+                price:
+                  type: string
+                tableSize:
+                  type: string
+            example:
+              price: "88"
+              tableSize: "9"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          headers: {}
+      deprecated: false
+    parameters: []
+  /reservations:
+    post:
+      tags:
+        - Reservations
+      description: Create reservation
+      operationId: Createreservation
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreatereservationRequest"
+              type: object
+              properties:
+                city:
+                  type: string
+                startDate:
+                  type: string
+                endDate:
+                  type: string
+                userName:
+                  type: string
+                tableName:
+                  type: string
+            example:
+              city: Berlin
+              startDate: 2023-11-21
+              endDate: 2023-11-29
+              userName: John
+              tableName: Table1
+        required: true
+      responses:
+        "201":
+          description: "Created"
+          headers: {}
+      deprecated: false
+    get:
+      tags:
+        - Reservations
+      description: Get all reservations
+      operationId: Getallreservations
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          headers: {}
+      deprecated: false
+    parameters: []
+  /reservations/{id}:
+    delete:
+      tags:
+        - Reservations
+      summary: Delete reservation
+      operationId: Deletereservation
+      parameters:
+        - name: id
+          in: path
+          description: ""
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "No Content"
+          headers: {}
+      deprecated: false
+components:
+  schemas:
+    RegisteruserRequest:
+      title: RegisteruserRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    LoginuserRequest:
+      title: LoginuserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    CreatetableRequest:
+      title: CreatetableRequest
+      required:
+        - name
+        - image
+        - desc
+        - price
+        - tableSize
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        desc:
+          type: string
+        price:
+          type: string
+        tableSize:
+          type: string
+    UpdatetableRequest:
+      title: UpdatetableRequest
+      required:
+        - price
+        - tableSize
+      type: object
+      properties:
+        price:
+          type: string
+        tableSize:
+          type: string
+    CreatereservationRequest:
+      title: CreatereservationRequest
+      required:
+        - city
+        - startDate
+        - endDate
+        - userName
+        - tableName
+      type: object
+      properties:
+        city:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        userName:
+          type: string
+        tableName:
+          type: string
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+  - httpBearer: []
+tags:
+  - name: Auth
+    description: ""
+  - name: Restaurant Tables
+    description: ""
+  - name: Reservations
+    description: ""
