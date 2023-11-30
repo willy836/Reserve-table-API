@@ -6,7 +6,7 @@ info:
     email: wilsonkimiri836@gmail.com
   version: "1.0"
 servers:
-  - url: http://127.0.0.1:3000/api/v1
+  - url: https://reserveatable.chickenkiller.com/api/v1
     variables: {}
 paths:
   /auth/register:
@@ -223,12 +223,15 @@ paths:
                   type: string
                 tableName:
                   type: string
+                restaurantTable:
+                  type: string
             example:
               city: Berlin
               startDate: 2023-11-21
               endDate: 2023-11-29
               userName: John
               tableName: Table1
+              restaurantTable: 65646f54640decdcb12c1744
         required: true
       responses:
         "201":
@@ -332,6 +335,7 @@ components:
         - endDate
         - userName
         - tableName
+        - restaurantTable
       type: object
       properties:
         city:
@@ -343,6 +347,8 @@ components:
         userName:
           type: string
         tableName:
+          type: string
+        restaurantTable:
           type: string
   securitySchemes:
     httpBearer:
